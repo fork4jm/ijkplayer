@@ -22,6 +22,7 @@
  */
 
 #import "IJKMediaUtils.h"
+#import "ffmpeg.h"
 
 @implementation IJKMediaUtils
 
@@ -46,6 +47,25 @@
                                          code:0
                                      userInfo:errorDict];
     return error;
+}
+
++ (BOOL)executeCommandWithStr:(NSString *)command_str {
+    NSLog(@"command:%@",command_str);
+    // 分割字符串
+    NSMutableArray  *argv_array  = [command_str componentsSeparatedByString:(@" ")].mutableCopy;
+    
+    // 获取参数个数
+    int argc = (int)argv_array.count;
+    
+    // 遍历拼接参数
+    char **argv = calloc(argc, sizeof(char*));
+    
+    for(int i=0; i<argc; i++) {
+        NSString *codeStr = argv_array[i];
+        argv_array[i]     = codeStr;
+        argv[i]      = (char *)[codeStr UTF8String];
+    }
+    return (0 == ffmpeg_main(argc, argv));
 }
 
 @end

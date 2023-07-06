@@ -30,4 +30,7 @@
                       description: (NSString*)description
                            reason: (NSString*)reason;
 
+
++ (BOOL)executeCommandWithStr:(NSString *)command_str;
+
 @end
